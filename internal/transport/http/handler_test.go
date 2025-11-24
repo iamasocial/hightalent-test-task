@@ -135,8 +135,16 @@ func TestGetQuestionByID(t *testing.T) {
 }
 
 func TestDeleteQuestions(t *testing.T) {
+	called := false
+
 	mockQuestions := &mocks.MockQuestionsService{
 		DeleteFunc: func(ctx context.Context, ID uint) error {
+			called = true
+
+			if ID != 8 {
+				t.Fatalf("expected ID 8, got %d", ID)
+			}
+
 			return nil
 		},
 	}
@@ -160,6 +168,10 @@ func TestDeleteQuestions(t *testing.T) {
 	resp := w.Result()
 	if resp.StatusCode != http.StatusNoContent {
 		t.Fatalf("expected 204, got %d", resp.StatusCode)
+	}
+
+	if !called {
+		t.Fatalf("expected DeleteFunc to be called")
 	}
 }
 
@@ -265,8 +277,16 @@ func TestGetAnswerByID(t *testing.T) {
 }
 
 func TestDeleteAnswer(t *testing.T) {
+	called := false
+
 	mockAnswers := &mocks.MockAnswersService{
 		DeleteFunc: func(ctx context.Context, ID uint) error {
+			called = true
+
+			if ID != 1 {
+				t.Fatalf("expected ID 1, got %d", ID)
+			}
+
 			return nil
 		},
 	}
@@ -290,5 +310,9 @@ func TestDeleteAnswer(t *testing.T) {
 	resp := w.Result()
 	if resp.StatusCode != http.StatusNoContent {
 		t.Fatalf("expected 204, got %d", resp.StatusCode)
+	}
+
+	if !called {
+		t.Fatalf("expected DeleteFunc to be called")
 	}
 }
