@@ -11,9 +11,9 @@ import (
 
 // AnswersService defines business logic operations for answers
 type AnswersService interface {
-	Create(ctx context.Context, questionID uint, userID, text string) (*entities.Answer, error)
-	GetByID(ctx context.Context, ID uint) (*entities.Answer, error)
-	Delete(ctx context.Context, ID uint) error
+	CreateAnswer(ctx context.Context, questionID uint, userID, text string) (*entities.Answer, error)
+	GetAnswerByID(ctx context.Context, ID uint) (*entities.Answer, error)
+	DeleteAnswer(ctx context.Context, ID uint) error
 }
 
 type answersService struct {
@@ -30,7 +30,7 @@ func NewAnswersService(qr repository.QuestionsRepository, ar repository.AnswersR
 }
 
 // Create adds a new answer to a question after verifying the question exists
-func (s *answersService) Create(ctx context.Context, questionID uint, userID, text string) (*entities.Answer, error) {
+func (s *answersService) CreateAnswer(ctx context.Context, questionID uint, userID, text string) (*entities.Answer, error) {
 	_, err := s.questionRepo.GetByID(ctx, questionID)
 	if err != nil {
 		return nil, fmt.Errorf("question not found")
@@ -51,11 +51,11 @@ func (s *answersService) Create(ctx context.Context, questionID uint, userID, te
 }
 
 // GetByID retieves an answer by its ID
-func (s *answersService) GetByID(ctx context.Context, ID uint) (*entities.Answer, error) {
+func (s *answersService) GetAnswerByID(ctx context.Context, ID uint) (*entities.Answer, error) {
 	return s.answersRepo.GetByID(ctx, ID)
 }
 
 // Delete removes an answer by its ID
-func (s *answersService) Delete(ctx context.Context, ID uint) error {
+func (s *answersService) DeleteAnswer(ctx context.Context, ID uint) error {
 	return s.answersRepo.Delete(ctx, ID)
 }

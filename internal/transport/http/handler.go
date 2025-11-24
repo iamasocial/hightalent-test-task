@@ -22,7 +22,7 @@ func NewHandler(svc *service.Service) *Handler {
 
 // GetAllQuestions handles GET /questions and returns all questions
 func (h *Handler) GetAllQuestions(w http.ResponseWriter, r *http.Request) {
-	questions, err := h.QuestionsService.GetAll(r.Context())
+	questions, err := h.Service.GetAllQuestions(r.Context())
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -48,7 +48,7 @@ func (h *Handler) CreateQuestion(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	q, err := h.QuestionsService.Create(r.Context(), req.Text)
+	q, err := h.Service.CreateQuestion(r.Context(), req.Text)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -71,7 +71,7 @@ func (h *Handler) GetQuestionByID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	q, err := h.QuestionsService.GetByID(r.Context(), uint(id))
+	q, err := h.Service.GetQuestionByID(r.Context(), uint(id))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
@@ -94,7 +94,7 @@ func (h *Handler) DeleteQuestion(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = h.QuestionsService.Delete(r.Context(), uint(id))
+	err = h.Service.DeleteQuestion(r.Context(), uint(id))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
@@ -118,7 +118,7 @@ func (h *Handler) CreateAnswer(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	a, err := h.AnswersService.Create(r.Context(), uint(questionID), req.UserID, req.Text)
+	a, err := h.Service.CreateAnswer(r.Context(), uint(questionID), req.UserID, req.Text)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -141,7 +141,7 @@ func (h *Handler) GetAnswerByID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	a, err := h.AnswersService.GetByID(r.Context(), uint(id))
+	a, err := h.Service.GetAnswerByID(r.Context(), uint(id))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
@@ -164,7 +164,7 @@ func (h *Handler) DeleteAnswer(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = h.AnswersService.Delete(r.Context(), uint(id))
+	err = h.Service.DeleteAnswer(r.Context(), uint(id))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return

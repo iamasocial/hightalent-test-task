@@ -11,10 +11,10 @@ import (
 
 // QuestionsService defines business logic operations for questions
 type QuestionsService interface {
-	Create(ctx context.Context, text string) (*entities.Question, error)
-	GetAll(ctx context.Context) ([]*entities.Question, error)
-	GetByID(ctx context.Context, id uint) (*entities.Question, error)
-	Delete(ctx context.Context, id uint) error
+	CreateQuestion(ctx context.Context, text string) (*entities.Question, error)
+	GetAllQuestions(ctx context.Context) ([]*entities.Question, error)
+	GetQuestionByID(ctx context.Context, id uint) (*entities.Question, error)
+	DeleteQuestion(ctx context.Context, id uint) error
 }
 
 type questionsService struct {
@@ -27,7 +27,7 @@ func NewQuestionsService(repo repository.QuestionsRepository) QuestionsService {
 }
 
 // Create adds a new question after validating the text
-func (s *questionsService) Create(ctx context.Context, text string) (*entities.Question, error) {
+func (s *questionsService) CreateQuestion(ctx context.Context, text string) (*entities.Question, error) {
 	if text == "" {
 		return nil, fmt.Errorf("question text cannot be empty")
 	}
@@ -45,16 +45,16 @@ func (s *questionsService) Create(ctx context.Context, text string) (*entities.Q
 }
 
 // GetAll returns all questions
-func (s *questionsService) GetAll(ctx context.Context) ([]*entities.Question, error) {
+func (s *questionsService) GetAllQuestions(ctx context.Context) ([]*entities.Question, error) {
 	return s.repo.GetAll(ctx)
 }
 
 // GetById retrives a question by its ID
-func (s *questionsService) GetByID(ctx context.Context, id uint) (*entities.Question, error) {
+func (s *questionsService) GetQuestionByID(ctx context.Context, id uint) (*entities.Question, error) {
 	return s.repo.GetByID(ctx, id)
 }
 
 // Delete removes a question by its ID
-func (s *questionsService) Delete(ctx context.Context, id uint) error {
+func (s *questionsService) DeleteQuestion(ctx context.Context, id uint) error {
 	return s.repo.Delete(ctx, id)
 }
