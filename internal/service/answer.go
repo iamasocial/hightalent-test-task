@@ -9,10 +9,11 @@ import (
 	"github.com/iamasocial/hightalent-test-task/internal/repository"
 )
 
+// AnswersService defines business logic operations for answers
 type AnswersService interface {
-	Create(ctx context.Context, questionId uint, userId, text string) (*entities.Answer, error)
-	GetByID(ctx context.Context, id uint) (*entities.Answer, error)
-	Delete(ctx context.Context, id uint) error
+	Create(ctx context.Context, questionID uint, userID, text string) (*entities.Answer, error)
+	GetByID(ctx context.Context, ID uint) (*entities.Answer, error)
+	Delete(ctx context.Context, ID uint) error
 }
 
 type answersService struct {
@@ -20,6 +21,7 @@ type answersService struct {
 	answersRepo  repository.AnswersRepository
 }
 
+// NewAnswersService creates a new AnswersService instance
 func NewAnswersService(qr repository.QuestionsRepository, ar repository.AnswersRepository) AnswersService {
 	return &answersService{
 		questionRepo: qr,
@@ -27,15 +29,16 @@ func NewAnswersService(qr repository.QuestionsRepository, ar repository.AnswersR
 	}
 }
 
-func (s *answersService) Create(ctx context.Context, questionId uint, userId, text string) (*entities.Answer, error) {
-	_, err := s.questionRepo.GetByID(ctx, questionId)
+// Create adds a new answer to a question after verifying the question exists
+func (s *answersService) Create(ctx context.Context, questionID uint, userID, text string) (*entities.Answer, error) {
+	_, err := s.questionRepo.GetByID(ctx, questionID)
 	if err != nil {
 		return nil, fmt.Errorf("question not found")
 	}
 
 	a := &entities.Answer{
-		QuestionId: questionId,
-		UserId:     userId,
+		QuestionID: questionID,
+		UserID:     userID,
 		Text:       text,
 		CreatedAt:  time.Now(),
 	}
@@ -47,10 +50,12 @@ func (s *answersService) Create(ctx context.Context, questionId uint, userId, te
 	return a, nil
 }
 
-func (s *answersService) GetByID(ctx context.Context, id uint) (*entities.Answer, error) {
-	return s.answersRepo.GetByID(ctx, id)
+// GetByID retieves an answer by its ID
+func (s *answersService) GetByID(ctx context.Context, ID uint) (*entities.Answer, error) {
+	return s.answersRepo.GetByID(ctx, ID)
 }
 
-func (s *answersService) Delete(ctx context.Context, id uint) error {
-	return s.answersRepo.Delete(ctx, id)
+// Delete removes an answer by its ID
+func (s *answersService) Delete(ctx context.Context, ID uint) error {
+	return s.answersRepo.Delete(ctx, ID)
 }

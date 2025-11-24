@@ -12,7 +12,7 @@ func toEntityQuestion(q db.Question) *entities.Question {
 	}
 
 	return &entities.Question{
-		Id:        q.Id,
+		ID:        q.ID,
 		Text:      q.Text,
 		CreatedAt: q.CreatedAt,
 		Answers:   answers,
@@ -21,7 +21,7 @@ func toEntityQuestion(q db.Question) *entities.Question {
 
 func toModelQuestion(q *entities.Question) db.Question {
 	return db.Question{
-		Id:        q.Id,
+		ID:        q.ID,
 		Text:      q.Text,
 		CreatedAt: q.CreatedAt,
 	}
@@ -29,9 +29,9 @@ func toModelQuestion(q *entities.Question) db.Question {
 
 func toEntityAnswer(a db.Answer) *entities.Answer {
 	return &entities.Answer{
-		Id:         a.Id,
-		QuestionId: a.QuestionId,
-		UserId:     a.UserId,
+		ID:         a.ID,
+		QuestionID: a.QuestionID,
+		UserID:     a.UserID,
 		Text:       a.Text,
 		CreatedAt:  a.CreatedAt,
 	}
@@ -39,9 +39,9 @@ func toEntityAnswer(a db.Answer) *entities.Answer {
 
 func toModelAnswer(a *entities.Answer) db.Answer {
 	return db.Answer{
-		Id:         a.Id,
-		QuestionId: a.QuestionId,
-		UserId:     a.UserId,
+		ID:         a.ID,
+		QuestionID: a.QuestionID,
+		UserID:     a.UserID,
 		Text:       a.Text,
 		CreatedAt:  a.CreatedAt,
 	}

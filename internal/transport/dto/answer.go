@@ -1,13 +1,18 @@
 package dto
 
+import "time"
+
+// CreateAnswerRequest represents the request body for creating an answer
 type CreateAnswerRequest struct {
-	UserId string `json:"user_id"`
+	UserID string `json:"user_id"`
 	Text   string `json:"text"`
 }
 
+// AnswerResponse represents the response body for an answer
 type AnswerResponse struct {
-	Id         uint   `json:"id"`
-	QuestionId uint   `json:"question_id"`
-	UserId     string `json:"user_id"`
-	Text       string `json:"text"`
+	ID         uint      `json:"id"`
+	QuestionID uint      `json:"question_id"`
+	UserID     string    `json:"user_id"`
+	Text       string    `json:"text"`
+	CreatedAt  time.Time `json:"created_at"`
 }

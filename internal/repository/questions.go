@@ -9,17 +9,19 @@ import (
 	"gorm.io/gorm"
 )
 
+// QuestionsRepository defines operations for managing questions in the storage layer
 type QuestionsRepository interface {
 	GetAll(ctx context.Context) ([]*entities.Question, error)
 	Create(ctx context.Context, q *entities.Question) error
-	GetByID(ctx context.Context, id uint) (*entities.Question, error)
-	Delete(ctx context.Context, id uint) error
+	GetByID(ctx context.Context, ID uint) (*entities.Question, error)
+	Delete(ctx context.Context, ID uint) error
 }
 
 type questionRepo struct {
 	db *gorm.DB
 }
 
+// NewQuestionsRepository creates a new instance of QuestionsRepository
 func NewQuestionsRepository(db *gorm.DB) QuestionsRepository {
 	return &questionRepo{db: db}
 }
@@ -39,21 +41,21 @@ func (r *questionRepo) GetAll(ctx context.Context) ([]*entities.Question, error)
 	return questions, nil
 }
 
-// Create saves question in DB
+// Create inserts a new question record into the database
 func (r *questionRepo) Create(ctx context.Context, q *entities.Question) error {
 	model := toModelQuestion(q)
 	if err := r.db.WithContext(ctx).Create(&model).Error; err != nil {
 		return err
 	}
-	q.Id = model.Id
+	q.ID = model.ID
 	return nil
 }
 
-// GetByID returns question by ID
-func (r *questionRepo) GetByID(ctx context.Context, id uint) (*entities.Question, error) {
+// GetByID returns question by ID or ErrNotFound if it doesn't exist
+func (r *questionRepo) GetByID(ctx context.Context, ID uint) (*entities.Question, error) {
 	var model db.Question
 
-	err := r.db.WithContext(ctx).Preload("Answers").First(&model, id).Error
+	err := r.db.WithContext(ctx).Preload("Answers").First(&model, ID).Error
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, ErrNotFound
@@ -66,9 +68,9 @@ func (r *questionRepo) GetByID(ctx context.Context, id uint) (*entities.Question
 	return toEntityQuestion(model), err
 }
 
-// Delete removes question by ID
-func (r *questionRepo) Delete(ctx context.Context, id uint) error {
-	err := r.db.WithContext(ctx).Delete(&db.Question{}, id).Error
+// Delete removes question by ID or returns ErrNotFound if it doesn't exist
+func (r *questionRepo) Delete(ctx context.Context, ID uint) error {
+	err := r.db.WithContext(ctx).Delete(&db.Question{}, ID).Error
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return ErrNotFound
