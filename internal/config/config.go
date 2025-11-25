@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/ilyakaznacheev/cleanenv"
-	"github.com/joho/godotenv"
 )
 
 // Config represents application configuration, including HTTP and database settings.
@@ -40,9 +39,9 @@ type DB struct {
 // LoadConfig loads application configuration from YAML file and environment variables.
 // It first load .env, reads the YAML at configPath into Config.
 func LoadConfig(configPath string) (*Config, error) {
-	if err := godotenv.Load(); err != nil {
-		return nil, fmt.Errorf("failed to load .env file: %s", err)
-	}
+	// if err := godotenv.Load(); err != nil {
+	// 	return nil, fmt.Errorf("failed to load .env file: %s", err)
+	// }
 
 	if configPath == "" {
 		return nil, fmt.Errorf("config file path is empty")
