@@ -4,9 +4,10 @@ import (
 	"context"
 	"errors"
 
+	"gorm.io/gorm"
+
 	"github.com/iamasocial/hightalent-test-task/internal/db"
 	"github.com/iamasocial/hightalent-test-task/internal/entities"
-	"gorm.io/gorm"
 )
 
 // QuestionsRepository defines operations for managing questions in the storage layer

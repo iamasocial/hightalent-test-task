@@ -2,8 +2,9 @@ package logger
 
 import (
 	"context"
-	"log/slog"
 	"os"
+
+	"log/slog"
 )
 
 const (

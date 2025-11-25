@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
+
 	"github.com/iamasocial/hightalent-test-task/internal/entities"
 	"github.com/iamasocial/hightalent-test-task/internal/service"
 	"github.com/iamasocial/hightalent-test-task/internal/service/mocks"

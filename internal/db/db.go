@@ -3,9 +3,10 @@ package db
 import (
 	"fmt"
 
-	"github.com/iamasocial/hightalent-test-task/internal/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+
+	"github.com/iamasocial/hightalent-test-task/internal/config"
 )
 
 // NewPostgresDB creates a new GORM Postgres connection
